@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Fetch</title>
+	<style>
+		body{
+			margin: 0px auto;
+			text-align: center;
+		}
+		input{
+			height: 35px;
+		    width: 70%;
+		    padding: 0px 10px;
+		    border: 1px solid #b1c7d2;
+		    background: #b1c7d2;
+		    margin-top: 15px;
+		    border-radius: 4px;
+		}
+		ul{
+			margin: 0px;
+			padding: 0px;
+		}
+		ul li{
+			list-style: none;
+			padding: 12px 0px;
+			background: #f3f3f3;
+			margin: 5px 0px;
+		}
+		.hl{
+			color: #F44336;
+			font-weight: 800;
+		}
+	</style>
+</head>
+<body>
+	
+	<div>
+		<input type="text" class="search" placeholder="Search">
+	</div>
+
+	<div>
+		<ul class="display">
+		</ul>
+	</div>
+
+	<script>
+		// const endpoint = 'https://raw.githubusercontent.com/lutangar/cities.json/master/cities.json';
+		const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+
+		let cities = [];
+
+		fetch(endpoint)
+			.then(res => res.json())
+			.then(data=> {
+				cities.push(...data);
+			})
+		function findMatch(wordToMatch,data){
+			return data.filter(place => {
+				let regx = new RegExp(wordToMatch,'gi');
+				return place.city.match(regx) || place.state.match(regx);
+			})
+		}
+		
+		function displayResult(){
+			let findResult = findMatch(this.value,cities)
+			let html = findResult.map(r =>{
+				let regx = new RegExp(this.value,'gi');
+				let rcity = r.city.replace(regx,`<span class="hl">${this.value}</span>`);
+				let rstate = r.state.replace(regx,`<span class="hl">${this.value}</span>`);
+				return(
+					`<li>
+						<span>${rcity} - </span>
+						<span>${rstate}</span>
+					</li>`
+				)
+			}).join('');
+
+			// console.log(html)
+
+			display.innerHTML = html;
+		}
+
+		let search 	= document.querySelector('.search')
+		let display = document.querySelector('.display')
+
+		search.addEventListener('change',displayResult);
+		search.addEventListener('keyup',displayResult);
+	</script>
+</body>
+</html>

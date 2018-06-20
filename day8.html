@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Document</title>
+		<style>
+			body{
+				margin: 0px auto;
+			}
+		</style>
+	</head>
+	<body>
+		<button onclick="refresh()">Restart</button>
+		<canvas id="canvas" width="800" height="800"></canvas>
+		
+		<script>
+			const canvas = document.querySelector('#canvas');
+			canvas.height = window.innerHeight;
+			canvas.width = window.innerWidth;
+
+			const ctx = canvas.getContext('2d');
+			ctx.lineCap = 'round';
+			ctx.lineJoin = 'round';
+			ctx.lineWidth = '5';
+			ctx.strokeStyle = '#673AB7';
+
+			let isDrowing = false;
+			let lastX = 0;
+			let lastY = 0;
+
+			function refresh(){
+				ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+				console.log('here....')
+			}
+
+			function drow(e){
+				if(!isDrowing) return;
+				ctx.beginPath();
+				ctx.moveTo(lastX,lastY);
+				ctx.lineTo(e.offsetX,e.offsetY);
+				ctx.stroke();
+				[lastX,lastY] = [e.offsetX,e.offsetY];
+			}
+			canvas.addEventListener('mousemove',drow);
+			canvas.addEventListener('mousedown',(e)=> {
+				[lastX,lastY] = [e.offsetX,e.offsetY];
+				isDrowing= true
+			});
+			canvas.addEventListener('mouseup',()=> isDrowing= false);
+			canvas.addEventListener('mouseout',()=> isDrowing= false);
+		</script>
+	</body>
+</html>
