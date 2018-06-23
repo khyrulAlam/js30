@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Deep Copy Vs Shadow Copy</title>
+</head>
+<body>
+	
+
+
+	<script>
+		// variable Copy
+		let name = 'anik';
+		let name2 = name;
+		console.log(name,name2);
+		name = 'khyrul';	
+		console.log(name,name2);
+
+		//array copy;
+		let arr = ['anik','alam','26'];
+		let arr2 = arr.slice();
+		console.log(arr,arr2);
+		arr2[3] = 'developer';
+		console.log(arr,arr2);
+
+		// es6 array copy
+		let arr3 = [...arr];
+		arr3[3] = 'movie lover';
+		console.log(arr,arr2,arr3);
+
+		// object copy
+		const person = {
+			name: 'anik alam',
+			age: 26
+		}
+		const person2 = Object.assign({},person,{name:'khyrl alam',profession: 'Developer'});
+		console.log(person,person2);
+
+		// object deep copy
+		const people = {
+			name: 'khyrul alam',
+			age: 26,
+			like:{
+				one: 'Movie',
+				two: 'Codeing',
+				three: 'Music'
+			}
+		}
+
+		// [it's only working for first level]
+		const people2 = Object.assign({},people);
+		
+		// To deep level copy you should do this
+		const people3 = JSON.parse(JSON.stringify(people));
+
+		console.clear();
+		console.log(people,people3)
+		people3.like.one = 'Football';
+		console.log(people.like.one,people3.like.one)
+
+	</script>
+</body>
+</html>

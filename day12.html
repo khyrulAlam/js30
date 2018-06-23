@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>KeyMap</title>
+	<script type="text/javascript" src="http://www.cornify.com/js/cornify.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+	<style>
+		body{
+			margin: 0px auto;
+			font-family: 'Ubuntu', sans-serif;
+		}
+		h3{
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+	<h3>Type <mark>Magic</mark> Word on you keyboard and see what happens!!</h3>
+	
+
+	<script>
+		const h3 = document.querySelector('h3');
+		let pressed =[];
+		let secretCode = 'magic';
+		window.addEventListener('keypress',(e)=>{
+			pressed.push(e.key.toLowerCase());
+			console.log(pressed);
+			pressed.splice(-secretCode.length - 1,pressed.length - secretCode.length);
+			if(pressed.join('').includes(secretCode)){
+				// console.log('ding dong..')
+				cornify_add();
+				h3.style.display = 'none'
+			}
+		})
+	</script>
+</body>
+</html>
